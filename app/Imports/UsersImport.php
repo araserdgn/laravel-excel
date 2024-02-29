@@ -37,8 +37,35 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidati
         ];
     }
 
+    // public function onError(\Throwable $e)
+    // {
+    //     throw new ValidationException($e->validator);
+    // }
+
+    public function customValidationMessages()
+    {
+        return [
+            '*.email.email' => 'Lütfen geçerli bir e-posta adresi girin.',
+            '*.email.unique' => 'Bu e-posta adresi zaten kullanılıyor.',
+            '*.name.required' => 'Ad alanı zorunludur.',
+            '*.name.string' => 'Ad alanı bir metin olmalıdır.',
+            '*.name.max' => 'Ad alanı en fazla :max karakter uzunluğunda olabilir.',
+            '*.password.required' => 'Şifre alanı zorunludur.',
+            '*.password.string' => 'Şifre alanı bir metin olmalıdır.',
+            '*.password.min' => 'Şifre en az :min karakter uzunluğunda olmalıdır.',
+            '*.phone_number.required' => 'Telefon numarası zorunludur.',
+            '*.phone_number.max' => 'Telefon numarası en fazla :max karakter uzunluğunda olabilir.',
+        ];
+    }
+
     public function onError(\Throwable $e)
     {
-        throw new ValidationException($e->validator);
+        if ($e instanceof ValidationException) {
+            // Validasyon hatası varsa, blade'e hataları gönder
+            return redirect()->back()->withErrors($e->errors());
+        }
+
+        // Diğer türde bir hata varsa, blade'e genel bir hata mesajı gönder
+        return redirect()->back()->withErrors(['error' => $e->getMessage()]);
     }
 }

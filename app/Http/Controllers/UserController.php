@@ -14,6 +14,7 @@ class UserController extends Controller
     /**
     * @return \Illuminate\Support\Collection
     */
+
     public function index()
     {
         $users = User::get();

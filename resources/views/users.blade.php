@@ -17,7 +17,7 @@
 
 
                 @if (isset($errors) && $errors->any())
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger text-center">
                         @foreach ($errors->all() as $error)
                             {{ $error }}
                         @endforeach
@@ -28,9 +28,9 @@
                 <form action="{{ route('users.import') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="file" name="file" class="form-control">
-                    @error('file')
+                    {{-- @error('file')
                     <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    @enderror --}}
                     <br>
                     <button class="btn btn-primary">Import User Data</button>
                 </form>
