@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
+
+
 use Illuminate\Http\Request;
 use App\Exports\UsersExport;
 use App\Imports\UsersImport;
@@ -36,13 +39,15 @@ class UserController extends Controller
     public function import(UserImportRequest $request)
     {
         try {
+            $file = $request->file('file');
+            \Log::info('Uploading file: ' . $file->getClientOriginalName());
             Excel::import(new UsersImport, $request->file('file'));
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
             $errorMessages = [];
 
             foreach ($failures as $failure) {
-                $errorMessages[] = 'Row ' . $failure->row() . ': ' . implode(', ', $failure->errors());
+                $errorMessages[] = 'Row ' . $failure->row() . ': ' . implode(', ', $failure->errors()).'  ';
             }
 
             return redirect()->back()->withErrors($errorMessages);
@@ -50,6 +55,7 @@ class UserController extends Controller
 
         return back();
     }
+
 
 
 }

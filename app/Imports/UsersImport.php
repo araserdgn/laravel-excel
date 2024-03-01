@@ -42,12 +42,14 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidati
     //     throw new ValidationException($e->validator);
     // }
 
+
+
     public function customValidationMessages()
     {
         return [
             '*.email.email' => 'Lütfen geçerli bir e-posta adresi girin.',
-            '*.email.unique' => 'Bu e-posta adresi zaten kullanılıyor.',
-            '*.name.required' => 'Ad alanı zorunludur.',
+            '*.email.unique' => 'Aynı olan e-posta adresi mevcuttur satırda.',
+            '*.name.required' => 'Ad alanlarından birinde boşluk var.',
             '*.name.string' => 'Ad alanı bir metin olmalıdır.',
             '*.name.max' => 'Ad alanı en fazla :max karakter uzunluğunda olabilir.',
             '*.password.required' => 'Şifre alanı zorunludur.',
@@ -67,5 +69,7 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidati
 
         // Diğer türde bir hata varsa, blade'e genel bir hata mesajı gönder
         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+
+
     }
 }
