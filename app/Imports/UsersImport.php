@@ -43,7 +43,6 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidati
     // }
 
 
-
     public function customValidationMessages()
     {
         return [
@@ -58,6 +57,7 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidati
             '*.phone_number.required' => 'Telefon numarası zorunludur.',
             '*.phone_number.max' => 'Telefon numarası en fazla :max karakter uzunluğunda olabilir.',
         ];
+
     }
 
     public function onError(\Throwable $e)
@@ -70,6 +70,7 @@ class UsersImport implements ToModel, WithHeadingRow, SkipsOnError, WithValidati
         // Diğer türde bir hata varsa, blade'e genel bir hata mesajı gönder
         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
 
-
     }
+
+
 }
